@@ -2,7 +2,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class UC1 {
+public class UC1
+{
 
     public void checkForConnection(String url, String userName, String password) {
         try {
