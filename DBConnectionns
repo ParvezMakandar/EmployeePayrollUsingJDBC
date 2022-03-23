@@ -1,0 +1,359 @@
+-- FROM UC1 to UC11 --
+mysql> create database payroll_service;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> show databases;
++----------------------+
+| Database             |
++----------------------+
+| address_book_service |
+| bookstore            |
+| crud                 |
+| demo                 |
+| emp                  |
+| information_schema   |
+| mysql                |
+| payroll_service      |
+| performance_schema   |
+| sakila               |
+| sys                  |
+| world                |
+| zaid                 |
++----------------------+
+13 rows in set (0.01 sec)
+
+mysql> use payroll_service;
+Database changed
+mysql> create table employee_payroll(id int not null auto_increment primary key,empName varchar(25),salary double,startDate date);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc employee_payroll;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| empName   | varchar(25) | YES  |     | NULL    |                |
+| salary    | double      | YES  |     | NULL    |                |
+| startDate | date        | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+mysql> insert into employee_payroll(empname,salary,startDate) values('piyush',1200,'2021-11-30');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee_payroll(empname,salary,startDate) values('parvez',12000,'2020-9-21');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee_payroll(empname,salary,startDate) values('priyanka',5263,'2016-5-4');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee_payroll(empname,salary,startDate) values('senthil',78965,'2012-5-7');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee_payroll(empname,salary,startDate) values('kaynat',7412,'2016-1-6');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from employee_payroll;
++----+----------+--------+------------+
+| id | empName  | salary | startDate  |
++----+----------+--------+------------+
+|  1 | piyush   |   1200 | 2021-11-30 |
+|  2 | parvez   |  12000 | 2020-09-21 |
+|  3 | priyanka |   5263 | 2016-05-04 |
+|  4 | senthil  |  78965 | 2012-05-07 |
+|  5 | kaynat   |   7412 | 2016-01-06 |
++----+----------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select salary from employee_payroll where empname='parvez';
++--------+
+| salary |
++--------+
+|  12000 |
++--------+
+1 row in set (0.01 sec)
+
+mysql> select * from employee_payroll where startDate between cast('2015-01-05' as date) and date(now());
++----+----------+--------+------------+
+| id | empName  | salary | startDate  |
++----+----------+--------+------------+
+|  1 | piyush   |   1200 | 2021-11-30 |
+|  2 | parvez   |  12000 | 2020-09-21 |
+|  3 | priyanka |   5263 | 2016-05-04 |
+|  5 | kaynat   |   7412 | 2016-01-06 |
++----+----------+--------+------------+
+4 rows in set (0.00 sec)
+
+mysql> desc employee_payroll;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| empName   | varchar(25) | YES  |     | NULL    |                |
+| salary    | double      | YES  |     | NULL    |                |
+| startDate | date        | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.01 sec)
+
+mysql> alter table employee_payroll add column gender varchar(1) after empname;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> update employee_payroll set gender='M' where id>=1;
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 5  Changed: 5  Warnings: 0
+
+mysql> select * from employee_payroll;
++----+----------+--------+--------+------------+
+| id | empName  | gender | salary | startDate  |
++----+----------+--------+--------+------------+
+|  1 | piyush   | M      |   1200 | 2021-11-30 |
+|  2 | parvez   | M      |  12000 | 2020-09-21 |
+|  3 | priyanka | M      |   5263 | 2016-05-04 |
+|  4 | senthil  | M      |  78965 | 2012-05-07 |
+|  5 | kaynat   | M      |   7412 | 2016-01-06 |
++----+----------+--------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into employee_payroll(empname,gender,salary,startDate) values('Rehan','M',1000000,'2008-7-10');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee_payroll(empname,gender,salary,startDate) values('Faizan','M',8500,'2018-6-21');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee_payroll(empname,gender,salary,startDate) values('Azeem','M',78512,'2019-7-27');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select sum(salary) from employee_payroll where gender='M' group by gender;
++-------------+
+| sum(salary) |
++-------------+
+|     1191852 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select avg(salary) from employee_payroll where gender='M' group by gender;
++-------------+
+| avg(salary) |
++-------------+
+|    148981.5 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select min(salary) from employee_payroll where gender='M' group by gender;
++-------------+
+| min(salary) |
++-------------+
+|        1200 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select max(salary) from employee_payroll where gender='M' group by gender;
++-------------+
+| max(salary) |
++-------------+
+|     1000000 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select count(salary) from employee_payroll where gender='M' group by gender;
++---------------+
+| count(salary) |
++---------------+
+|             8 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) from employee_payroll where gender='F' group by gender;
+Empty set (0.00 sec)
+
+mysql> select avg(salary) from employee_payroll where gender='F' group by gender;
+Empty set (0.00 sec)
+
+mysql> select min(salary) from employee_payroll where gender='F' group by gender;
+Empty set (0.00 sec)
+
+mysql> select max(salary) from employee_payroll where gender='F' group by gender;
+Empty set (0.00 sec)
+
+mysql> select count(salary) from employee_payroll where gender='F' group by gender;
+Empty set (0.00 sec)
+
+mysql> select count(salary) from employee_payroll where gender='F' ;
++---------------+
+| count(salary) |
++---------------+
+|             0 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select sum(salary) from employee_payroll where gender='F' group by gender;
+Empty set (0.00 sec)
+
+mysql> alter table employee_payroll add column empphone long;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add column address varchar(50) default 'india';
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add column department varchar(20) not null;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee_payroll;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| empName    | varchar(25) | YES  |     | NULL    |                |
+| gender     | varchar(1)  | YES  |     | NULL    |                |
+| salary     | double      | YES  |     | NULL    |                |
+| startDate  | date        | YES  |     | NULL    |                |
+| empphone   | mediumtext  | YES  |     | NULL    |                |
+| address    | varchar(50) | YES  |     | india   |                |
+| department | varchar(20) | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+8 rows in set (0.01 sec)
+
+mysql> alter table employee_payroll add column basicpay double;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add column deductions double;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add column taxablepay double;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add column incomtax double;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table employee_payroll add column netpay double;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee_payroll;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| empName    | varchar(25) | YES  |     | NULL    |                |
+| gender     | varchar(1)  | YES  |     | NULL    |                |
+| salary     | double      | YES  |     | NULL    |                |
+| startDate  | date        | YES  |     | NULL    |                |
+| empphone   | mediumtext  | YES  |     | NULL    |                |
+| address    | varchar(50) | YES  |     | india   |                |
+| department | varchar(20) | NO   |     | NULL    |                |
+| basicpay   | double      | YES  |     | NULL    |                |
+| deductions | double      | YES  |     | NULL    |                |
+| taxablepay | double      | YES  |     | NULL    |                |
+| incomtax   | double      | YES  |     | NULL    |                |
+| netpay     | double      | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+13 rows in set (0.00 sec)
+
+mysql> insert into employee_payroll(empname,gender,salary,startDate,empphone,address,department,basicpay,deductions,taxablepay,incomtax,netpay)
+    -> values('Imran','M',50000,'2020-05-06',8878786567,'Azam Nagar','Coder',7422,6500,8632,9521,95200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee_payroll(empname,gender,salary,startDate,empphone,address,department,basicpay,deductions,taxablepay,incomtax,netpay)
+    -> values('Munazam','M',480000,'2022-04-06',8787889897,'Mahantesh Nagar','sales and marketing',5412,8500,6632,3521,16200);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into employee_payroll(empname,gender,salary,startDate,empphone,address,department,basicpay,deductions,taxablepay,incomtax,netpay)
+    -> values('Naina','F',7400000,'2019-01-21',9988997898,'Vidya Nagar','IT Department',6412,1500,3632,5521,15200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee_payroll(empname,gender,salary,startDate,empphone,address,department,basicpay,deductions,taxablepay,incomtax,netpay)
+    -> values('Anthony','M',580000,'2002-05-06',9876545610,'Panaji','mechanical',5412,5500,1632,5521,95200);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee_payroll;
++----+----------+--------+---------+------------+------------+-----------------+---------------------+----------+------------+------------+----------+--------+
+| id | empName  | gender | salary  | startDate  | empphone   | address         | department          | basicpay | deductions | taxablepay | incomtax | netpay |
++----+----------+--------+---------+------------+------------+-----------------+---------------------+----------+------------+------------+----------+--------+
+|  1 | parvez   | M      |    1200 | 2021-11-30 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  2 | piyush   | M      |   12000 | 2020-09-21 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  3 | priyanka | M      |    5263 | 2016-05-04 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  4 | senthil  | M      |   78965 | 2012-05-07 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  5 | kaynat   | M      |    7412 | 2016-01-06 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  6 | Rehan    | M      | 1000000 | 2008-07-10 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  7 | Faizan   | M      |    8500 | 2018-06-21 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  8 | Azeem    | M      |   78512 | 2019-07-27 | NULL       | india           |                     |     NULL |       NULL |       NULL |     NULL |   NULL |
+|  9 | Imran    | M      |   50000 | 2020-05-06 | 8878786567 | Azam Nagar      | Coder               |     7422 |       6500 |       8632 |     9521 |  95200 |
+| 10 | Munazam  | M      |  480000 | 2022-04-06 | 8787889897 | Mahantesh Nagar | sales and marketing |     5412 |       8500 |       6632 |     3521 |  16200 |
+| 11 | Naina    | F      | 7400000 | 2019-01-21 | 9988997898 | Vidya Nagar     | IT Department       |     6412 |       1500 |       3632 |     5521 |  15200 |
+| 12 | Anthony  | M      |  580000 | 2002-05-06 | 9876545610 | Panaji          | mechanical          |     5412 |       5500 |       1632 |     5521 |  95200 |
++----+----------+--------+---------+------------+------------+-----------------+---------------------+----------+------------+------------+----------+--------+
+12 rows in set (0.00 sec)
+
+mysql> update employee_payroll set department='sales and marketing ' where id>1;
+Query OK, 11 rows affected (0.00 sec)
+Rows matched: 11  Changed: 11  Warnings: 0
+
+mysql> update employee_payroll set department='computer' where id>12 and id <16;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> update employee_payroll set department='mechanical ' where id=16;
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+mysql> create table EmployeeDepartment(empid int not null auto_increment primary key,deptid int not null );
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc EmployeeDepartment;
++--------+------+------+-----+---------+----------------+
+| Field  | Type | Null | Key | Default | Extra          |
++--------+------+------+-----+---------+----------------+
+| empid  | int  | NO   | PRI | NULL    | auto_increment |
+| deptid | int  | NO   |     | NULL    |                |
++--------+------+------+-----+---------+----------------+
+2 rows in set (0.01 sec)
+
+mysql> insert into EmployeeDepartment(deptid) values(101);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into EmployeeDepartment(deptid) values(102);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into EmployeeDepartment(deptid) values(103);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from EmployeeDepartment;
++-------+--------+
+| empid | deptid |
++-------+--------+
+|     1 |    101 |
+|     2 |    102 |
+|     3 |    103 |
++-------+--------+
+3 rows in set (0.00 sec)
+
+mysql> delete from EmployeeDepartment where empid=1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc employee_payroll;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id         | int         | NO   | PRI | NULL    | auto_increment |
+| empName    | varchar(25) | YES  |     | NULL    |                |
+| gender     | varchar(1)  | YES  |     | NULL    |                |
+| salary     | double      | YES  |     | NULL    |                |
+| startDate  | date        | YES  |     | NULL    |                |
+| empphone   | mediumtext  | YES  |     | NULL    |                |
+| address    | varchar(50) | YES  |     | india   |                |
+| department | varchar(20) | NO   |     | NULL    |                |
+| basicpay   | double      | YES  |     | NULL    |                |
+| deductions | double      | YES  |     | NULL    |                |
+| taxablepay | double      | YES  |     | NULL    |                |
+| incomtax   | double      | YES  |     | NULL    |                |
+| netpay     | double      | YES  |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+13 rows in set (0.00 sec)
