@@ -2,7 +2,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class UC4 {
+public class UC4
+{
 
     String updateQuery="update employee_payroll set salary=5000000 where empname='Terisa'";
 
