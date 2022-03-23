@@ -2,11 +2,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UC4 {
 
-    String updateQuery="update employee_payroll set salary=3000000 where empName='Terisa'";
-    String select="select * from employee_payroll where empName='Terisa'";
+    String updateQuery="update employee_payroll set salary=5000000 where empname='Terisa'";
+    String select="select * from employee_payroll where empname='Terisa'";
     public void updateSalary(Connection connection) {
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(updateQuery);
